@@ -1,14 +1,15 @@
 ## Put comments here that give an overall description of what your functions do
 
 ## Write a short comment describing this function
-# This function creates a list of matrix functions
+# This function returns a list of matrix functions
 # $set(y)         : using the <<- operator, this function
-#                   sets the cached matrix and clears the
+#                   caches the matrix data and clears the
 #                   cached inverse of the matrix
 # $get()          : gets the matrix data
 # $setmatrixinv() : using the <<- operator, this function
-#                   sets (calculates) and caches the inverse of the matrix
+#                   caches the inverse of the matrix
 # $getmatrixinv() : gets the cached inverse of the matrix
+#
 makeCacheMatrix <- function(x = matrix()) 
 {
      matrixinv <- NULL
@@ -18,32 +19,32 @@ makeCacheMatrix <- function(x = matrix())
           matrixinv <<- NULL
      }
      get <- function() x
-     setmatrixinv <- function(ginv) matrixinv <<- ginv
+     setmatrixinv <- function(z) matrixinv <<- z
      getmatrixinv <- function() matrixinv
      list(set = set, get = get, setmatrixinv = setmatrixinv, getmatrixinv = getmatrixinv)
 }
 
 ## Write a short comment describing this function
-# "ginv" from the MASS package is used instead of solve
-# because ginv creates a matrix pseudoinverse that works
-# for all matrices
 # 
-# This function uses the list of matrix functions from makeCacheMatrix to
-# to check for and return the cached inverse or 
-# to calculate and return the calculate inverse 
-# when the cached inverse is not available
+# This function returns the inverse of x by getting it from the cache or
+# by calculating (and then caching) it
+# This function uses the ginv function from the MASS package instead
+# of the solve function (which does not work for all matrices)
 cacheSolve <- function(x, ...)
 {
      ## Return a matrix that is the inverse of 'x'
+     # check/get for the cached inverse and return it if found
      matrixinv <- x$getmatrixinv()
      if(!is.null(matrixinv))
      {
           message("getting cached data")
           return(matrixinv)
      }
+     # get the matrix data, calculate the inverse & cache the inverse
      data <- x$get()
      matrixinv <- ginv(data, ...)
      x$setmatrixinv(matrixinv)
+     # return the inverse
      matrixinv
 }
 
@@ -53,13 +54,13 @@ library("MASS")
 x <-c(1:16)
 x <-matrix(x, nrow = 4, ncol = 4, byrow = FALSE)
 x
-## create a list of functions (special matrix) from x
+## create a list of functions in xx that are specific for matrix x
 xx <-makeCacheMatrix(x)
-## run cacheSolve using xx to get the chache the inverse of x or calculate the invers of x
+## run cacheSolve using xx to get the chache of the inverse of x or to calculate the inverse of x
 cacheSolve(xx)
 ## run cacheSolve using xx again to retreive the cached inverse of x, skipping the re-calculation
 cacheSolve(xx)
-## run $set() function to reset x and clear the cached inverser of x
+## run $set() function to reset x and clear the cached inverse of x
 xx$set(x)
 ## run cacheSolve using xx and this time the inverse of x is calculated
 cacheSolve(xx)
