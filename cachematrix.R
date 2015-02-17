@@ -44,7 +44,7 @@ cacheSolve <- function(x, ...)
      data <- x$get()
      # calculate the inverse
      matrixinv <- ginv(data, ...)
-     # cache the inverser
+     # cache the inverse
      x$setmatrixinv(matrixinv)
      # return the inverse
      matrixinv
