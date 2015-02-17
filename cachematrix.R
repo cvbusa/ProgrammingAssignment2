@@ -2,13 +2,13 @@
 
 ## Write a short comment describing this function
 # This function returns a list of matrix functions
-# $set(y)         : using the <<- operator, this function
-#                   caches the matrix data and clears the
-#                   cached inverse of the matrix
-# $get()          : gets the matrix data
-# $setmatrixinv() : using the <<- operator, this function
-#                   caches the inverse of the matrix
-# $getmatrixinv() : gets the cached inverse of the matrix
+# $set(y)          : using the <<- operator, this function
+#                    caches the matrix data to the global environment and
+#                    clears the cached inverse of the matrix from the global environment
+# $get()           : gets the matrix data from the local environment
+# $setmatrixinv(z) : using the <<- operator, this function
+#                    caches the inverse of the matrix to the global environment
+# $getmatrixinv()  : gets the cached inverse of the matrix
 #
 makeCacheMatrix <- function(x = matrix()) 
 {
