@@ -1,7 +1,5 @@
+#
 source("./cachematrix.R")
-
-## check results
-library("MASS")
 #
 x <-c(1:16)
 x <-matrix(x, nrow = 4, ncol = 4, byrow = FALSE)
@@ -41,3 +39,4 @@ x$set(my_matrix)
 x$get()
 cacheSolve(x)
 cacheSolve(x)
+
